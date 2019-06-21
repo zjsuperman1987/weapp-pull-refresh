@@ -1,0 +1,6 @@
+<x-scroll-view bindrefresh="_onPullDownRefresh"
+               refreshingComplete="{{refreshingComplete}}">
+  <block wx:for="{{colors}}" wx:key="*this">
+    <view class='item' style='background: {{item}}'>{{index + 1}}.{{item}}</view>
+  </block>
+</x-scroll-view>

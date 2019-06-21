@@ -1,0 +1,36 @@
+<!--components/custom-scroll-view/x-scroll-view.wxml-->
+
+<scroll-view class='scroll-view custom-class'
+             scroll-y="{{scrollY}}"
+             scroll-with-animation="{{scrollWithAnimation}}"
+             lower-threshold="{{lowerThresHold}}"
+             enable-back-to-top="{{enableBackToTop}}"
+             scroll-into-view="{{scrollIntoView}}"
+             bindscroll="scroll"
+             bindscrolltolower="scrollToLower">
+
+  <view class='refresh-content refresh-container' 
+        xmlns:bind="" 
+        bind:touchstart="touchStart"
+        bind:touchmove="touchMove"
+        bind:touchend="touchEnd"
+        animation="{{animationData}}">
+  
+  <!-- 顶部刷新元素 -->
+  <view class='refresh-load' style='top: {{-loader.height}}px'>
+    <view class='refresh-load-content'>
+      <view class='refresh-pull-arrow {{className}}'></view>
+      <view class='refresh-load-text'>
+        <view>{{text}}</view>
+        <view>更新于：{{time}}</view>
+      </view>
+    </view>
+  </view>
+
+<!-- 卡槽 -->
+<slot></slot>
+
+  </view>
+
+
+</scroll-view>
