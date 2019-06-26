@@ -70,7 +70,6 @@ Component({
     },
     _onTouchEnd(e) {
       if (this.properties.refreshing) return;
-      
       if (this.data.pullDownStatus === 2) {
         this.properties.refreshing = true
         this.setData({
