@@ -1,6 +1,6 @@
 <!--pages/last/index.wxml-->
 
-<x-scroll-view refreshing="{{refreshing}}" nomore="{{nomore}}">
+<x-scroll-view refreshing="{{refreshing}}" nomore="{{nomore}}" bindpulldownrefresh='_onPullDownRefresh' bindloadmore="_onLoadmore">
   <block wx:for="{{colors}}" wx:key="*this">
     <view class='item' style='background: {{item}}'>{{index + 1}}. {{item}}</view>
   </block>

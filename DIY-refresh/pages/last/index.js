@@ -33,13 +33,28 @@ Page({
 
   // 下拉刷新
   _onPullDownRefresh() {
-    console.log(33333333333333);
     setTimeout(() => {
       this.setData({
         colors: this._generateColor(20),
         refreshing: false
       })
     }, 2000)
+  },
+
+  _onLoadmore() {
+    console.log('loadmore')
+    if (this.data.colors.length === 80) {
+      this.setData({
+        nomore: true
+      })
+      return;
+    }else {
+      setTimeout(() => {
+        this.setData({
+          colors: this.data.colors.concat(this._generateColor(20)),
+        })
+      }, 2000)
+    }
   }
 
 })

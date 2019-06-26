@@ -24,7 +24,7 @@
 
 .finish {
   transform: translate(0, -40px);
-  transition: transform 3s;
+  transition: transform 1s;
 }
 
 /* 下拉 */

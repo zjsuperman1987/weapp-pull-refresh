@@ -28,6 +28,7 @@ Component({
     loadingText: '正在加载...',
     completeText: '加载完成',
     nomoreText: '我是有底线的...',
+    loadmoreText: '加载更多...',
 
     pullDownStatus: 0, //状态
     lastScrollEnd: 0 //记录高度 加载更多判断...
@@ -46,27 +47,38 @@ Component({
         this.setData({
           pullDownStatus: 4
         })
+
+        setTimeout(() => {
+          this.setData({
+            pullDownStatus: 0,
+            lastScrollEnd: 0,
+            nomore: false
+          });
+        }, 500)
       }
     },
     _onScroll(e) {
-      console.log(e.detail.scrollTop);
+      // console.log(e.detail.scrollTop);
       // 判断下拉大于 阈值 阀值
       this.triggerEvent('_onScroll', e.detail.scrollTop);
 
-      if (this.properties.refreshing) return;
-
-      const threshold = this.properties.pullDownHeight * -1;
-      let scrollTop = e.detail.scrollTop
-      if (scrollTop > threshold) {
+      const status = this.data.pullDownStatus;
+      if (status === 3 || status == 4) return;
+      const height = this.properties.pullDownHeight;
+      const scrollTop = e.detail.scrollTop;
+      let targetStatus;
+      if (scrollTop < -1 * height) {
+        targetStatus = 2;
+      } else if (scrollTop < 0) {
+        targetStatus = 1;
+      } else {
+        targetStatus = 0;
+      }
+      if (status != targetStatus) {
         this.setData({
-          pullDownStatus: 1
-        })
-      }else {
-        this.setData({
-          pullDownStatus: 2
+          pullDownStatus: targetStatus,
         })
       }
-      
     },
     _onTouchEnd(e) {
       if (this.properties.refreshing) return;
@@ -75,16 +87,18 @@ Component({
         this.setData({
           pullDownStatus: 3
         })
-        this.triggerEvent('_onPullDownRefresh', e);
+        console.log(33333);
+        this.triggerEvent('pulldownrefresh', e);
       }
     },
     _onLoadmore(e) {
       let query = wx.createSelectorQuery().in(this);
-      query.select('.scroll-wrapper').bindClientRect();
+      query.select('.scroll-wrapper').boundingClientRect();
       query.exec((res) => {
-        if (res.height !== this.data.lastScrollEnd) {
-          this.data.lastScrollEnd = res.height;
-          this.triggerEvent('_onLoadmore', e);
+        if (res[0].height !== this.data.lastScrollEnd) {
+          console.log('加载更多来了.............................')
+          this.data.lastScrollEnd = res[0].height;
+          this.triggerEvent('loadmore', e);
         }
       })
     }
