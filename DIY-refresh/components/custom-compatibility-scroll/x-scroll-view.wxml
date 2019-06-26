@@ -10,6 +10,9 @@
                bindtouchend='_onTouchEnd'
                bindscroll='_onScroll'
                bindscrolltolower='_onLoadmore'>
+
+<!-- 包裹计算高度 -->
+<view class='scroll-wrapper'>
   <!-- 下拉刷新 -->
   <view class='pulldown'>
     <block wx:if="{{pullDownStatus === 0 || pullDownStatus === 1}}">
@@ -48,7 +51,7 @@
       <text>{{loadmoreText}}</text>
     </block>
   </view>
-
+</view>
   </scroll-view>
 </block>
 

@@ -11,6 +11,9 @@
   transform: translateY(-40px);
 }
 
+.scroll-wrapper {
+  overflow: hidden;
+}
 /* 刷新状态 */
 
 .refresh {

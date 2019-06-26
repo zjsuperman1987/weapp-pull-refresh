@@ -1,3 +1,7 @@
 <!--pages/last/index.wxml-->
 
-<x-scroll-view></x-scroll-view>
+<x-scroll-view>
+  <block wx:for="{{colors}}">
+    <view class='item' style='background: {{item}}'>{{index + 1}}. {{item}}</view>
+  </block>
+</x-scroll-view>
