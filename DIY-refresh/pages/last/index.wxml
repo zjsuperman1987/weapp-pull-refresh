@@ -1,0 +1,3 @@
+<!--pages/last/index.wxml-->
+
+<x-scroll-view></x-scroll-view>

@@ -96,6 +96,7 @@ Component({
         firstTouchY: parseInt(touchObj.clientY),
         initialScroll: scrollTop
       })
+      console.log(this.data.initialScroll);
     },
 
     // 触摸中
