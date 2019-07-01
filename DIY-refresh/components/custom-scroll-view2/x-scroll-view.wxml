@@ -1,4 +1,3 @@
-<!--components/custom-scroll-view2/x-scroll-view.wxml-->
 
   <scroll-view class="scroll-view custom-class" scroll-y="{{scrollY}}" scroll-with-animation="{{scrollWithAnimation}}" lower-threshold="{{lowerThresHold}}" enable-back-to-top="{{enableBackToTop}}" scroll-into-view="{{scrollIntoView}}" catchscroll="scroll" bindscrolltolower="scrollToLower">
     <view class="refresh-content refresh-container" xmlns:bind="" bind:touchstart="touchstart" bind:touchmove="touchmove" bind:touchend="touchend" animation="{{animationData}}">
@@ -14,4 +13,3 @@
       <slot/>
     </view>
   </scroll-view>
-

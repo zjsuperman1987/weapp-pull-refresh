@@ -13,7 +13,6 @@ Page({
    */
   onLoad: function(options) {
     const colors = this._generateColor(20);
-    console.log(colors);
     this.setData({
       colors: colors
     })
@@ -28,7 +27,7 @@ Page({
 
   // 随机颜色
   _randomColor() {
-    return `rgba(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${(Math.random() * .3 + .2).toFixed(1)})`
+    return `rgba(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${(Math.random() * .2 + .3).toFixed(1)})`
   },
 
   // 下拉刷新

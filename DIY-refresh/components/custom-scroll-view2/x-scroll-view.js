@@ -1,4 +1,3 @@
-// components/custom-scroll-view2/x-scroll-view.js
 Component({
   data: {
     scrollY: true,
@@ -78,6 +77,7 @@ Component({
       let touchobj = ev.touches[0]
       let touchY = parseInt(touchobj.clientY)
       let touchYDelta = touchY - this.data.firstTouchY
+      
       if (this.data.initialScroll > 0 || this.data.scrollTop > 0 || this.data.scrollTop === 0 && touchYDelta < 0) {
         this.setData({
           firstTouchY: touchY
@@ -88,6 +88,7 @@ Component({
       const yDelta = this.data.brand === 'devtools' ? touchYDelta ** 0.85 : this.data.system === 'ios' ? touchYDelta ** 0.5 : touchYDelta ** 0.85
       // let translateVal = yDelta
       this.data.animation.translate3d(0, yDelta, 0).step()
+      console.log(touchYDelta);
       let obj = touchYDelta >= this.data.triggerDistance ? {
         className: 'refresh-pull-up',
         // text: '松开可以刷新'

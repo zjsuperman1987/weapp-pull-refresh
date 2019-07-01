@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "x-scroll-view": "../../components/last-scroll/x-scroll-view"
+  }
+}

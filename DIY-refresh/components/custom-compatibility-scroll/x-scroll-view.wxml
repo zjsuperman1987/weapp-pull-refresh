@@ -71,5 +71,38 @@
 
 <!-- 安卓机型 -->
 <block wx:else>
-  <scroll-view> 我是 android</scroll-view>
+  <scroll-view class='scroll-view custom-class'
+               enable-back-to-top
+               scroll-with-animation
+               scroll-y
+               catchscroll='_onScroll'
+               bindscrolltolower="_onLoadmore">
+    
+    <view class='scroll-wrapper'
+          bindtouchstart='_onTouchStart'
+          bindtouchmove='_onTouchMove'
+          bindtouchend='_onTouchEndAndroid'
+          animation="{{animationData}}">
+      <!-- 下拉 -->
+      <view class='pulldown'>
+        <text class='iconfont {{pullStatus}}'></text>
+        <text>{{statusText}}</text>
+      </view>
+
+      <!-- 卡槽 -->
+      <slot></slot>
+
+      <!-- 加载更多 -->
+      <view class='loadmore'>
+        <block wx:if="{{nomore}}">
+          <text>{{nomoreText}}</text>
+        </block>
+        <block wx:else>
+          <text class='iconfont icon-loading loading'></text>
+          <text>{{loadmoreText}}</text>
+        </block>
+      </view>
+    </view>
+
+  </scroll-view>
 </block>

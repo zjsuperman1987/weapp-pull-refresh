@@ -1,5 +1,3 @@
-/* components/custom-scroll-view2/x-scroll-view.wxss */
-
 .scroll-view .new-block {
   width: 100%;
   height: 100px;

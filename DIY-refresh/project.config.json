@@ -4,15 +4,16 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
-		"autoAudits": false
+		"autoAudits": false,
+		"checkInvalidKey": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.7.1",
+	"libVersion": "2.6.6",
 	"appid": "wx9ca9d2dbfbf4ded6",
 	"projectname": "miniprogram-test-1",
 	"debugOptions": {
@@ -39,12 +40,20 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 1,
 			"list": [
 				{
 					"id": -1,
 					"name": "下拉兼容",
 					"pathName": "pages/last/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 1,
+					"name": "最后",
+					"pathName": "pages/final/final",
+					"query": "",
 					"scene": null
 				}
 			]

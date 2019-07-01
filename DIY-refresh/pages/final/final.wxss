@@ -1,0 +1,18 @@
+/* pages/final/final.wxss */
+page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+x-scroll-view {
+  height: calc(100% - 51px);
+}
+
+
+
+.view {
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+}

@@ -1,5 +1,5 @@
 {
   "usingComponents": {
-    "x-scroll-view": "/components/custom-scroll-view/x-scroll-view"
+    "x-scroll-view": "/components/custom-scroll-view2/x-scroll-view"
   }
 }

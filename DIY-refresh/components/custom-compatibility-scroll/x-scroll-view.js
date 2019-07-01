@@ -31,7 +31,14 @@ Component({
     loadmoreText: '加载更多...',
 
     pullDownStatus: 0, //状态
-    lastScrollEnd: 0 //记录高度 加载更多判断...
+    lastScrollEnd: 0, //记录高度 加载更多判断...
+
+    // android 数据
+    animationData: {},
+    scrollTop: 0,
+    triggerDistance: 60,
+    yDelta: 40
+
   },
 
   /**
@@ -42,10 +49,11 @@ Component({
      * ios
      */
     _onPropertiesChange(newVal, oldVal) {
-      console.log(newVal, oldVal);
+      // console.log(newVal, oldVal);
       if (newVal === false && oldVal === true) {
         this.setData({
-          pullDownStatus: 4
+          pullDownStatus: 4,
+
         })
 
         setTimeout(() => {
@@ -55,12 +63,31 @@ Component({
             nomore: false
           });
         }, 500)
+
+        if (this.data.type === 'android') {
+          this.data.animation.translate3d(0, 0, 0).step({
+            duration: 500
+          });
+          let obj = {
+            pullStatus: 'icon-complete',
+            statusText: this.data.completeText
+          }
+          setTimeout(() => {
+            this.setData({
+              animationData: this.data.animation.export(),
+              ...obj
+            }, 1000)
+          })
+        }
       }
     },
     _onScroll(e) {
-      // console.log(e.detail.scrollTop);
       // 判断下拉大于 阈值 阀值
+      // console.log(e.detail.scrollTop);
       this.triggerEvent('_onScroll', e.detail.scrollTop);
+      if (this.data.type === 'android') {
+        this.data.scrollTop = e.detail.scrollTop;
+      }
 
       const status = this.data.pullDownStatus;
       if (status === 3 || status == 4) return;
@@ -101,7 +128,7 @@ Component({
           this.triggerEvent('loadmore', e);
         }
       })
-    }
+    },
     /**
      * ios
      */
@@ -109,37 +136,111 @@ Component({
     /**
      * android
      */
+    // 触摸
+    _onTouchStart(e) {
+      console.log('start')
+      this.data.touchY = e.touches[0].pageY;
+      let query = wx.createSelectorQuery().in(this);
+      query.select('.scroll-wrapper').boundingClientRect();
+      query.exec(res => {
+        this.setData({
+          'loader.top': res[0].top
+        })
+      })
+    },
+    // 移动
+    _onTouchMove(e) {
+      console.log('move')
 
+      let status = this.data.pullDownStatus;
+      if (status === 3 || status === 4) return;
+      let touchYDelta =
+        this.data.touchYDelta =
+        e.touches[0].pageY - this.data.touchY;
+
+      if (this.data.loader.top >= -40 && touchYDelta > 0) {
+        console.log('内层')
+        let yDelta = touchYDelta > 0 ? parseInt(touchYDelta ** .85) :
+          -parseInt((Math.abs(touchYDelta) ** .85));
+
+        let obj = yDelta < this.data.triggerDistance ? {
+          pullStatus: 'icon-pull-down',
+          statusText: this.data.pullText,
+          pullDownStatus: 1
+        } : {
+          pullStatus: 'icon-release-up',
+          statusText: this.data.releaseText,
+          pullDownStatus: 2
+        }
+        console.log(touchYDelta, yDelta);
+
+        yDelta = yDelta >= 80 ? 80 : yDelta;
+        this.data.animation.translate3d(0, yDelta, 0).step();
+        this.setData({
+          animationData: this.data.animation.export(),
+          ...obj
+        })
+      }
+    },
+    // 离开
+    _onTouchEndAndroid(e) {
+      let status = this.data.pullDownStatus;
+
+      if (status === 3 || status === 4) return;
+      if (status === 2) {
+        var obj = {
+          pullStatus: 'icon-loading loading',
+          statusText: this.data.loadingText
+        }
+        this.data.animation.translate3d(0, 40, 0).step({
+          duration: '3s'
+        });
+        this.properties.refreshing = true;
+        this.setData({
+          animationData: this.data.animation.export(),
+          pullDownStatus: 3,
+          ...obj
+        });
+        console.log('我调用了')
+        this.triggerEvent('pulldownrefresh');
+      }else {
+        var obj = {
+          pullStatus: 'icon-pull-down',
+          statusText: this.data.pullText,
+        }
+        this.data.animation.translate3d(0, 0, 0).step();
+        this.setData({
+          animationData: this.data.animation.export(),
+          pullDownStatus: 1,
+          'loader.top': -40,
+          ...obj
+        })
+      }
+    }
 
     /**
      * android
      */
 
-    /**
-     * 公共方法
-     */
-    // _onScroll(e) {
-    //   console.log(e.detail.scrollTop);
-    //   this.triggerEvent('_onScroll', e.detail.scrollTop);
-    // },
-    // _onPropertiesChange(newVal, oldVal) {
-    //   console.log(newVal, oldVal);
-    // },
-    // _onTouchEnd(e) {
-    //   if (this.data.type === 'ios') {
 
-    //   }else {
-
-    //   }
-    // }
   },
   ready() {
     const systemInfo = wx.getSystemInfoSync();
     const type = /ios/i.test(systemInfo.system) ? "ios" : "android"
     this.setData({
-      type: type
+      type: "android"
     })
+    if (this.data.type === 'android') {
+      let animation = wx.createAnimation({
+        duration: 0,
+        timingFunction: 'linear'
+      })
 
+      this.setData({
+        animation: animation,
+        animationData: animation.export()
+      })
+    }
 
   }
 })
